@@ -4,3 +4,5 @@ class Arista:
         self.destino = destino
         self.peso = peso
         self.activa = activa
+        self.multiplicador_trafico = 1.0
+
