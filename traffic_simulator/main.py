@@ -20,7 +20,7 @@ grafo = Grafo()
 carros = []
 aristas = []
 arista_seleccionada = None
-vehiculo_seleccionado = None  # NUEVO: Para trackear vehículo seleccionado
+vehiculo_seleccionado = None
 analizador = AnalizadorTrafico(grafo)
 mostrar_recomendaciones = False
 recomendaciones_actuales = None
@@ -79,8 +79,8 @@ def main():
                 click_procesado = False
 
 
-                ## --NUEVO: Primero verificar si se hace clic en un vehículo
-                if event.button == 1:  # Click izquierdo
+
+                if event.button == 1:  # Clic izquierdo
                     vehiculo_clickeado = seleccionar_vehiculo_en_posicion(carros, mouse_pos)
                     if vehiculo_clickeado:
                         vehiculo_seleccionado = vehiculo_clickeado
@@ -156,17 +156,17 @@ def main():
             ## --Aumentar o reducir peso y bloquear aristas
             if event.type == pygame.KEYDOWN:
 
-                ## --NUEVO: Generar recomendaciones con 'R'
+                ## --Generar recomendaciones con 'R'
                 if event.key == pygame.K_r:
                     print("Generando recomendaciones de tráfico...")
                     recomendaciones_actuales = analizador.generar_recomendaciones()
                     mostrar_recomendaciones = True
 
-                ## --NUEVO: Ocultar recomendaciones con 'H'
+                ## --Ocultar recomendaciones con 'H'
                 if event.key == pygame.K_h:
                     mostrar_recomendaciones = False
 
-                ## --NUEVO: Mostrar estadísticas con 'S'
+                ## -- Mostrar estadísticas con 'S'
                 if event.key == pygame.K_s:
                     stats = analizador.obtener_estadisticas()
                     print("=== ESTADÍSTICAS DE TRÁFICO ===")
@@ -250,7 +250,7 @@ def main():
                     if nuevo_vehiculo:
                         print(f"Vehículo {nuevo_vehiculo.id} creado")
 
-                ## --NUEVO: Deseleccionar vehículo con ESC
+                ## --Deseleccionar vehículo con ESC
                 if event.key == pygame.K_ESCAPE:
                     deseleccionar_todos_vehiculos(carros)
                     vehiculo_seleccionado = None
@@ -277,7 +277,7 @@ def main():
                     peso_texto = font.render(str(peso), True, (0, 0, 0))
                     screen.blit(peso_texto, (mid_x, mid_y))
 
-        ## --NUEVO: Dibujar ruta del vehículo seleccionado (DESPUÉS de las aristas normales)
+        ## -- Dibujar ruta del vehículo seleccionado (DESPUÉS de las aristas normales)
         if vehiculo_seleccionado:
             dibujar_ruta_vehiculo(screen, vehiculo_seleccionado, ciudades_colocadas, font)
 
@@ -304,7 +304,7 @@ def main():
         if mostrar_recomendaciones and recomendaciones_actuales:
             dibujar_recomendaciones(screen, recomendaciones_actuales, font_small)
 
-        ## --NUEVO: Mostrar información del vehículo seleccionado
+        ## -- Mostrar información del vehículo seleccionado
         if vehiculo_seleccionado:
             mostrar_info_vehiculo(screen, vehiculo_seleccionado, font_small)
 
@@ -339,7 +339,7 @@ def main():
         for ciudad in ciudad_buttons.values():
             ciudad.draw(screen)
 
-        ## --NUEVO: Mostrar instrucciones
+        ## -- Mostrar instrucciones
         instrucciones = [
             "Click en vehículo para seleccionar",
         "ESC para deseleccionar",
@@ -387,7 +387,7 @@ def dibujar_recomendaciones(screen, recomendaciones, font):
                      (panel_x + panel_width - 10, panel_y + y_offset), 2)
     y_offset += 15
 
-    # Prioridades (NUEVO)
+
     prioridades = recomendaciones.get('prioridades', [])
     if prioridades:
         subtitulo = font.render("PRIORIDADES:", True, (150, 0, 0))
@@ -410,7 +410,7 @@ def dibujar_recomendaciones(screen, recomendaciones, font):
             y_offset += 15
         y_offset += 10
 
-    # Congestión (NUEVO)
+
     congestion = recomendaciones.get('congestion', {})
     if congestion:
         subtitulo = font.render("ESTADO DE CONGESTIÓN:", True, (150, 0, 0))
@@ -427,7 +427,7 @@ def dibujar_recomendaciones(screen, recomendaciones, font):
             y_offset += 15
         y_offset += 10
 
-    # Predicciones (NUEVO)
+    
     predicciones = recomendaciones.get('predicciones', {})
     if predicciones:
         subtitulo = font.render("PREDICCIONES:", True, (150, 0, 0))

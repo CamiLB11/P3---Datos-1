@@ -14,7 +14,7 @@ class AnalizadorTrafico:
         self.capacidades_aristas = defaultdict(lambda: 10)  # NUEVO: Capacidades por defecto
 
     def calcular_eficiencia_red(self):
-        """NUEVO: Calcula la eficiencia general de la red"""
+        """ Calcula la eficiencia general de la red"""
         from core.algoritmos import Dijkstra
 
         dijkstra = Dijkstra(self.grafo)
@@ -54,7 +54,7 @@ class AnalizadorTrafico:
         return suma_eficiencias / max(1, pares_conectados)
 
     def detectar_rutas_alternativas(self, origen, destino, k=3):
-        """NUEVO: Encuentra las k rutas más cortas alternativas"""
+        """ Encuentra las k rutas más cortas alternativas"""
         from core.algoritmos import Dijkstra
 
         dijkstra = Dijkstra(self.grafo)
@@ -100,7 +100,7 @@ class AnalizadorTrafico:
             return []
 
     def calcular_indice_congestion(self):
-        """NUEVO: Calcula un índice de congestión para cada arista"""
+        """ Calcula un índice de congestión para cada arista"""
         indices_congestion = {}
 
         for arista_key, flujo in self.flujo_vehicular.items():
@@ -127,7 +127,7 @@ class AnalizadorTrafico:
         return indices_congestion
 
     def predecir_congestion_futura(self):
-        """NUEVO: Predice congestión basada en tendencias históricas"""
+        """ Predice congestión basada en tendencias históricas"""
         predicciones = {}
 
         for arista_key, historial in self.historial_flujo.items():
@@ -158,7 +158,7 @@ class AnalizadorTrafico:
         return predicciones
 
     def generar_recomendaciones_avanzadas(self):
-        """MEJORADO: Genera recomendaciones más sofisticadas"""
+        """ Genera recomendaciones más sofisticadas"""
         recomendaciones = {
             'puntos_criticos': [],
             'cuellos_botella': [],
@@ -203,7 +203,7 @@ class AnalizadorTrafico:
         return recomendaciones
 
     def generar_prioridades(self, centralidad, cuellos_botella, puntos_articulacion, congestion, predicciones):
-        """NUEVO: Genera lista de prioridades de acción"""
+        """Genera lista de prioridades de acción"""
         prioridades = []
 
         # Prioridad 1: Puntos críticos con congestión alta
@@ -305,7 +305,7 @@ class AnalizadorTrafico:
         return dict(centrality)
 
     def analizar_vulnerabilidad_red(self):
-        """Nuevo: Analiza la vulnerabilidad de la red a fallos"""
+        """Analiza la vulnerabilidad de la red a fallos"""
         vulnerabilidades = {
             'nodos_criticos': [],
             'aristas_criticas': [],
@@ -343,7 +343,7 @@ class AnalizadorTrafico:
         return vulnerabilidades
 
     def generar_plan_mejora_infraestructura(self):
-        """Nuevo: Genera un plan detallado de mejora de infraestructura"""
+        """Genera un plan detallado de mejora de infraestructura"""
         plan = {
             'acciones_inmediatas': [],
             'acciones_corto_plazo': [],
@@ -391,7 +391,7 @@ class AnalizadorTrafico:
         return plan
 
     def calcular_metricas_rendimiento(self):
-        """Nuevo: Calcula métricas avanzadas de rendimiento de la red"""
+        """ Calcula métricas avanzadas de rendimiento de la red"""
         metricas = {
             'throughput': 0,
             'latencia_promedio': 0,
@@ -436,7 +436,7 @@ class AnalizadorTrafico:
         return metricas
 
     def generar_reporte_ejecutivo(self):
-        """Nuevo: Genera un reporte ejecutivo completo para tomadores de decisiones"""
+        """ Genera un reporte ejecutivo completo para tomadores de decisiones"""
         reporte = {
             'resumen_ejecutivo': {},
             'metricas_clave': {},
