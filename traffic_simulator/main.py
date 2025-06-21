@@ -23,9 +23,11 @@ arista_seleccionada = None
 vehiculo_seleccionado = None
 analizador = AnalizadorTrafico(grafo)
 mostrar_recomendaciones = False
+mostrar_mapa_calor = False
 recomendaciones_actuales = None
 ciudad_origen_alt = None
 ciudad_destino_alt = None
+
 
 
 
@@ -50,7 +52,7 @@ ciudad_buttons = {
 
 
 def main():
-    global ciudad_origen_alt, ciudad_destino_alt,ciudad_seleccionada, arista_seleccionada, vehiculo_seleccionado, mostrar_recomendaciones, recomendaciones_actuales
+    global mostrar_mapa_calor, ciudad_origen_alt, ciudad_destino_alt,ciudad_seleccionada, arista_seleccionada, vehiculo_seleccionado, mostrar_recomendaciones, recomendaciones_actuales
     punto1 = None
     punto2 = None
     velocidad = 0
@@ -283,6 +285,10 @@ def main():
         if tiempo_actual - tiempo_carro >= intervalo_carro:
             Vehiculo.crear_vehiculo(grafo, ciudades_colocadas, velocidad, carros)
             tiempo_carro = tiempo_actual
+
+        if mostrar_mapa_calor:
+            indices_congestion = analizador.calcular_indice_congestion()
+            dibujar_mapa_calor_congestion(screen, grafo, indices_congestion, ciudades_colocadas)
 
         ## --Dibujar aristas (ANTES que las rutas de vehículos)
         for ciudad_origen in grafo.adyacencias:
