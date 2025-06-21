@@ -27,6 +27,7 @@ mostrar_mapa_calor = False
 recomendaciones_actuales = None
 ciudad_origen_alt = None
 ciudad_destino_alt = None
+rutas_alternativas_visibles = []
 
 
 
@@ -52,7 +53,7 @@ ciudad_buttons = {
 
 
 def main():
-    global mostrar_mapa_calor, ciudad_origen_alt, ciudad_destino_alt,ciudad_seleccionada, arista_seleccionada, vehiculo_seleccionado, mostrar_recomendaciones, recomendaciones_actuales
+    global mostrar_mapa_calor, rutas_alternativas_visibles, ciudad_origen_alt, ciudad_destino_alt,ciudad_seleccionada, arista_seleccionada, vehiculo_seleccionado, mostrar_recomendaciones, recomendaciones_actuales
     punto1 = None
     punto2 = None
     velocidad = 0
@@ -205,13 +206,14 @@ def main():
 
                 # Tecla 'A' para mostrar rutas alternativas
                 if event.key == pygame.K_a:
-                    if ciudad_origen_alt and ciudad_destino_alt:
+                    if ciudad_origen_alt and ciudad_destino_alt and ciudad_origen_alt != ciudad_destino_alt:
                         rutas_alt = analizador.detectar_rutas_alternativas(ciudad_origen_alt, ciudad_destino_alt)
+                        rutas_alternativas_visibles = rutas_alt
                         print(
                             f"Encontradas {len(rutas_alt)} rutas alternativas entre {ciudad_origen_alt} y {ciudad_destino_alt}")
-                        dibujar_rutas_alternativas(screen, rutas_alt, ciudades_colocadas)
                     else:
-                        print("Debes seleccionar origen (tecla 1) y destino (tecla 2) antes de usar 'A'")
+                        print(
+                            "Debes seleccionar origen (tecla 1) y destino (tecla 2) distintos antes de mostrar rutas alternativas")
 
                 # Tecla 'M' para mapa de calor
                 if event.key == pygame.K_m:
@@ -305,6 +307,10 @@ def main():
                     peso_texto = font.render(str(peso), True, (0, 0, 0))
                     screen.blit(peso_texto, (mid_x, mid_y))
 
+        # Dibujar rutas alternativas si están disponibles
+        if rutas_alternativas_visibles:
+            dibujar_rutas_alternativas(screen, rutas_alternativas_visibles, ciudades_colocadas)
+
         ## -- Dibujar ruta del vehículo seleccionado (DESPUÉS de las aristas normales)
         if vehiculo_seleccionado:
             dibujar_ruta_vehiculo(screen, vehiculo_seleccionado, ciudades_colocadas, font)
@@ -328,6 +334,15 @@ def main():
             texto = font.render(nombre, True, (0, 0, 0))
             texto_rect = texto.get_rect(midtop=(rect.centerx, rect.bottom + 5))
             screen.blit(texto, texto_rect)
+
+        # Mostrar puntos críticos si hay recomendaciones activas
+        if mostrar_recomendaciones and recomendaciones_actuales:
+            puntos_criticos = recomendaciones_actuales.get('puntos_criticos', [])
+            for punto in puntos_criticos:
+                nombre = punto['nodo']
+                pos = next((p for n, p in ciudades_colocadas if n == nombre), None)
+                if pos:
+                    pygame.draw.circle(screen, (255, 0, 0), pos, 10, 2)  # círculo rojo
 
         if mostrar_recomendaciones and recomendaciones_actuales:
             dibujar_recomendaciones(screen, recomendaciones_actuales, font_small)

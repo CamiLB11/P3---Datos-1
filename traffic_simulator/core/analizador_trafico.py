@@ -241,9 +241,12 @@ class AnalizadorTrafico:
         return sorted(prioridades, key=lambda x: x['prioridad'])
 
     # Funciones auxiliares
-    def obtener_posicion_nodo(self, nombre_nodo):
-        """Obtiene la posición visual de un nodo (implementar según tu sistema)"""
-        # Esta función debería conectarse con ciudades_colocadas del main
+    def obtener_posicion_nodo(self, nombre_nodo, ciudades_colocadas=None):
+        if not ciudades_colocadas:
+            return None
+        for nombre, posicion in ciudades_colocadas:
+            if nombre == nombre_nodo:
+                return posicion
         return None
 
     def calcular_distancia_ruta(self, ruta):
