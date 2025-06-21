@@ -24,6 +24,10 @@ vehiculo_seleccionado = None
 analizador = AnalizadorTrafico(grafo)
 mostrar_recomendaciones = False
 recomendaciones_actuales = None
+ciudad_origen_alt = None
+ciudad_destino_alt = None
+
+
 
 slider = Slider((screen.get_width() / 2, 50), (200, 10), 0.5, 0, 50)
 
@@ -46,7 +50,7 @@ ciudad_buttons = {
 
 
 def main():
-    global ciudad_seleccionada, arista_seleccionada, vehiculo_seleccionado, mostrar_recomendaciones, recomendaciones_actuales
+    global ciudad_origen_alt, ciudad_destino_alt,ciudad_seleccionada, arista_seleccionada, vehiculo_seleccionado, mostrar_recomendaciones, recomendaciones_actuales
     punto1 = None
     punto2 = None
     velocidad = 0
@@ -156,6 +160,22 @@ def main():
             ## --Aumentar o reducir peso y bloquear aristas
             if event.type == pygame.KEYDOWN:
 
+                if event.key == pygame.K_1:
+                    for nombre, posicion in ciudades_colocadas:
+                        imagen = pygame.image.load("utils/ciudad.png").convert_alpha()
+                        rect = imagen.get_rect(center=posicion)
+                        if rect.collidepoint(mouse_pos):
+                            ciudad_origen_alt = nombre
+                            print(f"Ciudad origen para rutas alternativas: {ciudad_origen_alt}")
+
+                if event.key == pygame.K_2:
+                    for nombre, posicion in ciudades_colocadas:
+                        imagen = pygame.image.load("utils/ciudad.png").convert_alpha()
+                        rect = imagen.get_rect(center=posicion)
+                        if rect.collidepoint(mouse_pos):
+                            ciudad_destino_alt = nombre
+                            print(f"Ciudad destino para rutas alternativas: {ciudad_destino_alt}")
+
                 ## --Generar recomendaciones con 'R'
                 if event.key == pygame.K_r:
                     print("Generando recomendaciones de tráfico...")
@@ -183,11 +203,13 @@ def main():
 
                 # Tecla 'A' para mostrar rutas alternativas
                 if event.key == pygame.K_a:
-                    if len(ciudades_colocadas) >= 2:
-                        origen = ciudades_colocadas[0][0]
-                        destino = ciudades_colocadas[-1][0]
-                        rutas_alt = analizador.detectar_rutas_alternativas(origen, destino)
-                        print(f"Encontradas {len(rutas_alt)} rutas alternativas entre {origen} y {destino}")
+                    if ciudad_origen_alt and ciudad_destino_alt:
+                        rutas_alt = analizador.detectar_rutas_alternativas(ciudad_origen_alt, ciudad_destino_alt)
+                        print(
+                            f"Encontradas {len(rutas_alt)} rutas alternativas entre {ciudad_origen_alt} y {ciudad_destino_alt}")
+                        dibujar_rutas_alternativas(screen, rutas_alt, ciudades_colocadas)
+                    else:
+                        print("Debes seleccionar origen (tecla 1) y destino (tecla 2) antes de usar 'A'")
 
                 # Tecla 'M' para mapa de calor
                 if event.key == pygame.K_m:
