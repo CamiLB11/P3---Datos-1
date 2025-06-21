@@ -1,5 +1,3 @@
-# Mejoras sugeridas para analizador_trafico.py
-
 import math
 from collections import defaultdict
 import heapq

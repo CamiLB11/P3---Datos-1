@@ -29,9 +29,6 @@ ciudad_origen_alt = None
 ciudad_destino_alt = None
 rutas_alternativas_visibles = []
 
-
-
-
 slider = Slider((screen.get_width() / 2, 50), (200, 10), 0.5, 0, 50)
 
 ## --Diccionario para las posiciones de la interfaz
@@ -53,7 +50,7 @@ ciudad_buttons = {
 
 
 def main():
-    global mostrar_mapa_calor, rutas_alternativas_visibles, ciudad_origen_alt, ciudad_destino_alt,ciudad_seleccionada, arista_seleccionada, vehiculo_seleccionado, mostrar_recomendaciones, recomendaciones_actuales
+    global mostrar_mapa_calor, rutas_alternativas_visibles, ciudad_origen_alt, ciudad_destino_alt, ciudad_seleccionada, arista_seleccionada, vehiculo_seleccionado, mostrar_recomendaciones, recomendaciones_actuales
     punto1 = None
     punto2 = None
     velocidad = 0
@@ -84,8 +81,6 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 click_procesado = False
-
-
 
                 if event.button == 1:  # Clic izquierdo
                     vehiculo_clickeado = seleccionar_vehiculo_en_posicion(carros, mouse_pos)
@@ -218,8 +213,6 @@ def main():
                 # Tecla 'M' para mapa de calor
                 if event.key == pygame.K_m:
                     mostrar_mapa_calor = not mostrar_mapa_calor  # Variable global a agregar
-
-
 
                 if arista_seleccionada:
                     origen, destino = arista_seleccionada
@@ -385,11 +378,11 @@ def main():
         ## -- Mostrar instrucciones
         instrucciones = [
             "Click en vehículo para seleccionar",
-        "ESC para deseleccionar",
-        "C para crear vehículo manual",
-        "R para generar recomendaciones",
-        "H para ocultar recomendaciones",
-        "S para mostrar estadísticas"
+            "ESC para deseleccionar",
+            "C para crear vehículo manual",
+            "R para generar recomendaciones",
+            "H para ocultar recomendaciones",
+            "S para mostrar estadísticas"
         ]
 
         for i, instruccion in enumerate(instrucciones):
@@ -430,7 +423,6 @@ def dibujar_recomendaciones(screen, recomendaciones, font):
                      (panel_x + panel_width - 10, panel_y + y_offset), 2)
     y_offset += 15
 
-
     prioridades = recomendaciones.get('prioridades', [])
     if prioridades:
         subtitulo = font.render("PRIORIDADES:", True, (150, 0, 0))
@@ -453,7 +445,6 @@ def dibujar_recomendaciones(screen, recomendaciones, font):
             y_offset += 15
         y_offset += 10
 
-
     congestion = recomendaciones.get('congestion', {})
     if congestion:
         subtitulo = font.render("ESTADO DE CONGESTIÓN:", True, (150, 0, 0))
@@ -470,7 +461,6 @@ def dibujar_recomendaciones(screen, recomendaciones, font):
             y_offset += 15
         y_offset += 10
 
-    
     predicciones = recomendaciones.get('predicciones', {})
     if predicciones:
         subtitulo = font.render("PREDICCIONES:", True, (150, 0, 0))
